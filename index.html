@@ -1,90 +1,23 @@
-<!DOCTYPE HEML PUBLIC>
+<!DOCTYPE HTML>
 <html>
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=600, initial-scale=1.0">
+    <link href="./css/xmas-tree.css" rel="stylesheet" type="text/css" />
     <style>
-        html,
         body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            border: 0;
+            background: rgb(116, 15, 15);
+            padding: 20px;
         }
-
-        div {
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
-
-        .nav {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 27px;
-            background-color: white;
-            color: black;
-            text-align: center;
-            line-height: 25px;
-        }
-
-        a {
-            color: black;
-            text-decoration: none;
-            border-bottom: 1px dashed black;
-        }
-
-        a:hover {
-            border-bottom: 1px solid red;
-        }
-
-        .previous {
-            float: left;
-            margin-left: 10px;
-        }
-
-        .next {
-            float: right;
-            margin-right: 10px;
-        }
-
-        .green {
-            color: green;
-        }
-
-        .red {
-            color: red;
-        }
-
-        textarea {
-            width: 100%;
-            height: 100%;
-            border: 0;
-            padding: 0;
-            margin: 0;
-            padding-bottom: 20px;
-        }
-
-        .block-outer {
-            float: left;
-            width: 22%;
-            height: 100%;
-            padding: 5px;
-            border-left: 1px solid black;
-            margin: 30px 3px 3px 3px;
-        }
-
-        .block-inner {
-            height: 68%;
-        }
-
-        .one {
-            border: 0;
+        
+        marquee {
+            font-weight: bolder;
+            font-size: 40px;
+            color: rgb(15, 129, 11);
         }
     </style>
+    <title>My Love for TXW</title>
 </head>
 
 <body marginwidth="0" marginheight="0">
@@ -108,14 +41,10 @@
                 }
                 collapsed = !collapsed;
             }
-        </script>
-        <script>
             var b = document.body;
             var c = document.getElementsByTagName('canvas')[0];
             var a = c.getContext('2d');
             document.body.clientWidth;
-        </script>
-        <script>
             M = Math;
             Q = M.random; J = [];
             U = 16;
@@ -188,11 +117,29 @@
                 D += .02
             }, 1)
         </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                function audioAutoPlay() {
+                    var audio = document.getElementById('bg-music');
+                    audio.play();
+                    document.addEventListener("WeixinJSBridgeReady", function () {
+                        audio.play();
+                    }, false);
+                }
+                audioAutoPlay();
+            });
+        </script>
+    </canvas>
+    <!-- https://blog.csdn.net/jianggujin/article/details/70832469 -->
+    <marquee direction="up" behavior="scroll">UP</marquee>
 </body>
 
 <!-- https://stackoverflow.com/questions/63546265/how-to-make-music-autoplay-and-loop-in-background -->
-<audio loop="true" autoplay="true" autostart="true" controls="true">
+<!-- <audio loop="true" autoplay="true" autostart="true" controls="true">
     <source src="./Justin Bieber - Christmas Love.mp3" type="audio/mpeg">
-</audio>
+</audio> -->
+
+<!-- https://www.zhihu.com/question/25910769/answer/138963122 -->
+<audio style="display:none; height: 0" id="bg-music" preload="auto" src="./Justin Bieber - Christmas Love.mp3" loop="loop"></audio>
 
 </html>
