@@ -1,0 +1,35 @@
+.lyrics {
+    height: 32%;
+    padding-top: 16px;
+    overflow: hidden;
+    border-radius: 15px 50px;
+    border: 15px solid rgb(3, 77, 3);
+}
+
+.lyrics .lyricsList {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+}
+
+@font-face {
+    /* https://juejin.cn/post/6844904106943840269 */
+    font-family: 'Comic';
+    src: url('../Comic\ Sans\ MS.ttf');
+}
+
+.lyrics .lyricsList li {
+    height: 30px;
+    font-size: 32px;
+    color: rgb(4, 43, 2);
+    font-family: 'Comic';
+}
+
+.highlight {
+    color: rgb(12, 209, 44);
+    text-shadow: 0 0 10px #ddb224;
+}
