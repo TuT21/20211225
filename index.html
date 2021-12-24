@@ -3,25 +3,18 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=600, initial-scale=1.0">
+    <meta name="viewport" content="width=600,initial-scale=0.4,maximum-scale=0.4,minimum-scale=0.4">
     <link href="./css/xmas-tree.css" rel="stylesheet" type="text/css" />
-    <style>
-        body {
-            background: rgb(116, 15, 15);
-            padding: 20px;
-        }
-        
-        marquee {
-            font-weight: bolder;
-            font-size: 40px;
-            color: rgb(15, 129, 11);
-        }
-    </style>
+    <link href="./css/lrc.css" rel="stylesheet" type="text/css" />
+    <link href="./css/basic.css" rel="stylesheet" type="text/css" />
     <title>My Love for TXW</title>
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
 </head>
 
 <body marginwidth="0" marginheight="0">
-    <canvas id="c" height="356" width="446">
+    <script type="text/javascript" src="./js/mylrc.js"></script>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <canvas center id="c" height="400" width="500">
         <script>
             var collapsed = true;
             function toggle() {
@@ -120,7 +113,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 function audioAutoPlay() {
-                    var audio = document.getElementById('bg-music');
+                    var audio = document.getElementById('bgm');
                     audio.play();
                     document.addEventListener("WeixinJSBridgeReady", function () {
                         audio.play();
@@ -130,16 +123,71 @@
             });
         </script>
     </canvas>
+
+    <!-- lyrics -->
+    <div class="lyrics">
+        <ul class="lyricsList"></ul>
+    </div>
+
+    <!-- https://stackoverflow.com/questions/63546265/how-to-make-music-autoplay-and-loop-in-background -->
+    <!-- https://www.zhihu.com/question/25910769/answer/138963122 -->
+    <audio id="bgm" style="display:none; height: 0" preload="auto" loop="loop">
+        <source src="./Justin Bieber - Christmas Love.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- https://blog.csdn.net/jianggujin/article/details/70832469 -->
-    <marquee direction="up" behavior="scroll">UP</marquee>
+    <!-- <marquee direction="up" behavior="scroll">UP</marquee> -->
+    <!-- https://www.cnblogs.com/joyce33/p/13501197.html -->
+    <script>
+        function parseLrc() {
+            // console.log(lrc);
+            var lrcArray = []; // 用于存放歌词
+
+            $.each(lrc, function(i, item) {
+                // 过滤空白文本
+                if (item.split(']')[1] == "" || item == "" || item.indexOf('作曲') !== -1 || item.indexOf('作词') !== -1) {
+                    return true;
+                }
+                // 转化时间
+                var timeStr = item.substring(item.indexOf("[") + 1, item.indexOf("]"));
+                var min = parseInt(timeStr.split(':')[0]) * 60;
+                var sec = parseFloat(timeStr.split(':')[1]);
+                var time = parseFloat((min + sec).toFixed(2));
+                // 添加进数组
+                lrcArray.push({
+                    t: time,
+                    c: item.substring(item.indexOf(']') + 1)
+                });
+            });
+
+            // console.log(lrcArray);
+
+            // 显示歌词
+            var html = "";
+            $.each(lrcArray, function(i, v) {
+                // console.log(v.c);
+                html += '<li>' + v.c + '</li>';
+            });
+            // console.log(html);
+            $('.lyricsList').append(html);
+
+            // 同步高亮歌词
+            $('#bgm')[0].ontimeupdate = function() {
+                $.each(lrcArray, function(i, v) {
+                    if ($('#bgm')[0].currentTime >= lrcArray[i].t) {
+                        $('.lyricsList').css('margin-top', '');
+                        $('.lyricsList li').eq(i).addClass('highlight');
+                        $('.lyricsList li').eq(i).siblings().removeClass('highlight');
+                        if (i > 2) {
+                            $('.lyricsList').css('margin-top', (-i + 2) * 30 + 'px');
+                        }
+                    }
+                });
+            };
+        }
+
+        parseLrc();
+    </script>
 </body>
-
-<!-- https://stackoverflow.com/questions/63546265/how-to-make-music-autoplay-and-loop-in-background -->
-<!-- <audio loop="true" autoplay="true" autostart="true" controls="true">
-    <source src="./Justin Bieber - Christmas Love.mp3" type="audio/mpeg">
-</audio> -->
-
-<!-- https://www.zhihu.com/question/25910769/answer/138963122 -->
-<audio style="display:none; height: 0" id="bg-music" preload="auto" src="./Justin Bieber - Christmas Love.mp3" loop="loop"></audio>
 
 </html>
